@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Ishla - Bosh Sahifa</title>
     <style>
         * {
             margin: 0;
@@ -248,7 +247,6 @@
                         <option value="ru">Русский</option>
                     </select>
                 </div>
-                <div class="logo">Test Ishla</div>
                 <div class="clock" id="clock">Yuklanmoqda...</div>
             </div>
         </div>
@@ -257,7 +255,6 @@
     <nav>
         <div class="container">
             <ul class="nav-links">
-                <li><a href="#" data-i18n="menuHome">Bosh Sahifa</a></li>
                 <li><a href="#" data-i18n="menuPage2">Test Yaratish</a></li>
                 <li><a href="#" data-i18n="menuPage3">Natijalar</a></li>
             </ul>
@@ -304,7 +301,6 @@
         // Tillar matnlari
         const translations = {
             uz: {
-                menuHome: "Bosh Sahifa",
                 menuPage2: "Test Yaratish",
                 menuPage3: "Natijalar",
                 homeTitle: "Test Ishla Platformasi",
@@ -312,7 +308,6 @@
                 footer: "© 2025 Test Ishla. Barcha huquqlar himoyalangan."
             },
             en: {
-                menuHome: "Home",
                 menuPage2: "Create Test",
                 menuPage3: "Results",
                 homeTitle: "Test Ishla Platform",
@@ -320,7 +315,6 @@
                 footer: "© 2025 Test Ishla. All rights reserved."
             },
             ru: {
-                menuHome: "Главная",
                 menuPage2: "Создать Тест",
                 menuPage3: "Результаты",
                 homeTitle: "Платформа Test Ishla",
