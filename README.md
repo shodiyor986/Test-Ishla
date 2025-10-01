@@ -38,12 +38,11 @@
       font-weight: bold;
       box-shadow: 0 0 10px rgba(0,0,0,0.6);
     }
-    /* --- Til tanlash oynasi --- */
     .lang-switcher {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: rgba(200, 200, 200, 0.3); /* Shafof kulrang */
+      background: rgba(200, 200, 200, 0.3);
       padding: 8px 12px;
       border-radius: 8px;
       backdrop-filter: blur(6px);
@@ -52,15 +51,15 @@
     .lang-switcher select {
       background: transparent;
       border: none;
-      color: #000000; /* Yozuv qora */
+      color: #000000;
       font-weight: bold;
       font-size: 14px;
       outline: none;
       cursor: pointer;
     }
     .lang-switcher select option {
-      background: #f0f0f0; /* Oynani ochganda och kulrang */
-      color: #000; /* Variant yozuvlari qora */
+      background: #f0f0f0;
+      color: #000;
     }
     nav {
       background: rgba(255, 255, 255, 0.2);
@@ -130,8 +129,8 @@
     <h2 data-i18n="homeTitle">Bosh sahifa</h2>
     <p data-i18n="homeText">
       Ushbu sayt orqali siz turli testlarni tuzishingiz va ularni ishlatishingiz mumkin. 
-      Har bir sahifa alohida bo‘lim sifatida xizmat qiladi: savollar yaratish, testlarni sinash va natijalarni ko‘rish imkoniyati mavjud. 
-      Bu kichik loyiha keyinchalik yanada rivojlantirib, ta’lim yoki mashq qilish jarayonida foydali bo‘lishi mumkin.
+      Har bir sahifa alohida bo'lim sifatida xizmat qiladi: savollar yaratish, testlarni sinash va natijalarni ko'rish imkoniyati mavjud. 
+      Bu kichik loyiha keyinchalik yanada rivojlantirib, ta'lim yoki mashq qilish jarayonida foydali bo'lishi mumkin.
     </p>
   </div>
 
@@ -140,7 +139,6 @@
   </footer>
 
   <script>
-    // --- Tillar matnlari ---
     const translations = {
       uz: {
         title: "Bosh sahifa - Test Ishla",
@@ -149,7 +147,7 @@
         menuPage2: "2-sahifa",
         menuPage3: "3-sahifa",
         homeTitle: "Bosh sahifa",
-        homeText: "Ushbu sayt orqali siz turli testlarni tuzishingiz va ularni ishlatishingiz mumkin. Har bir sahifa alohida bo‘lim sifatida xizmat qiladi: savollar yaratish, testlarni sinash va natijalarni ko‘rish imkoniyati mavjud. Bu kichik loyiha keyinchalik yanada rivojlantirib, ta’lim yoki mashq qilish jarayonida foydali bo‘lishi mumkin.",
+        homeText: "Ushbu sayt orqali siz turli testlarni tuzishingiz va ularni ishlatishingiz mumkin. Har bir sahifa alohida bo'lim sifatida xizmat qiladi: savollar yaratish, testlarni sinash va natijalarni ko'rish imkoniyati mavjud. Bu kichik loyiha keyinchalik yanada rivojlantirib, ta'lim yoki mashq qilish jarayonida foydali bo'lishi mumkin.",
         footer: "© 2025 TestMakerAFU. Barcha huquqlar himoyalangan."
       },
       en: {
@@ -174,7 +172,6 @@
       }
     };
 
-    // --- Tarjima funksiyasi ---
     function applyTranslations(lang) {
       document.querySelectorAll("[data-i18n]").forEach(el => {
         let key = el.getAttribute("data-i18n");
@@ -186,17 +183,14 @@
       localStorage.setItem("lang", lang);
     }
 
-    // --- Tilni tanlash ---
     document.getElementById("lang").addEventListener("change", (e) => {
       applyTranslations(e.target.value);
     });
 
-    // --- Dastlabki tilni yuklash ---
     let savedLang = localStorage.getItem("lang") || "uz";
     document.getElementById("lang").value = savedLang;
     applyTranslations(savedLang);
 
-    // --- Real vaqt va sana ---
     function updateClock() {
       let now = new Date();
       let lang = localStorage.getItem("lang") || "uz";
