@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Test Ishla Platformasi</title>
   <style>
-    /* Sizning mavjud CSS stylinglaringiz */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(-45deg,#1e3c72,#2a5298,#0f2027,#203a43,#2c5364);
@@ -39,7 +38,7 @@
       margin:1rem;
     }
     .form-box h2 {color:#4cd137;text-align:center;margin-bottom:1rem;}
-    .form-box input, .form-box button {
+    .form-box input, .form-box button, .form-box textarea {
       width:100%;padding:10px;margin-bottom:1rem;border-radius:8px;border:none;outline:none;
     }
     .form-box button {
@@ -94,6 +93,115 @@
     .error {
       background: rgba(231, 76, 60, 0.3);
       border: 1px solid #e74c3c;
+    }
+
+    /* Test yaratish sahifasi uchun */
+    .test-creator {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      margin: 1rem;
+    }
+
+    .question-block {
+      background: rgba(255,255,255,0.05);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-radius: 10px;
+      border-left: 4px solid #4cd137;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0;
+    }
+
+    .option-row input[type="text"] {
+      flex: 1;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .option-row input[type="radio"] {
+      margin: 0;
+    }
+
+    .add-btn, .remove-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .remove-btn {
+      background: #e74c3c;
+    }
+
+    .add-btn:hover {
+      background: #2980b9;
+    }
+
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+
+    .test-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .test-list {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      margin: 1rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .test-item {
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border-left: 4px solid #9b59b6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
   </style>
 </head>
@@ -152,6 +260,52 @@
     </div>
   </section>
 
+  <!-- Test Yaratish Sahifasi -->
+  <section id="create" class="hidden">
+    <div class="test-creator">
+      <h2 data-i18n="createTestTitle">Test Yaratish</h2>
+      <div id="testMessage"></div>
+      
+      <form id="testForm">
+        <div class="form-group">
+          <label data-i18n="labelTestName">Test Nomi</label>
+          <input type="text" id="testName" required placeholder="Test nomini kiriting">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="labelTestDescription">Test Tavsifi</label>
+          <textarea id="testDescription" rows="3" placeholder="Test haqida qisqacha tavsif"></textarea>
+        </div>
+
+        <div id="questionsContainer">
+          <!-- Savollar shu yerga yuklanadi -->
+        </div>
+
+        <button type="button" class="add-btn" onclick="addQuestion()" data-i18n="btnAddQuestion">+ Yangi Savol Qo'shish</button>
+        
+        <div class="test-actions">
+          <button type="submit" class="btn" data-i18n="btnSaveTest">Testni Saqlash</button>
+          <button type="button" class="btn" onclick="showTestList()" data-i18n="btnShowTests">Yaratilgan Testlar</button>
+          <button type="button" class="btn" onclick="goToRegister()" data-i18n="btnBackRegister">Orqaga</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Testlar Ro'yxati -->
+  <section id="testList" class="hidden">
+    <div class="test-list">
+      <h2 data-i18n="testListTitle">Yaratilgan Testlar</h2>
+      <div id="testsContainer">
+        <!-- Testlar ro'yxati shu yerga yuklanadi -->
+      </div>
+      <div class="test-actions">
+        <button type="button" class="btn" onclick="goToTestCreator()" data-i18n="btnBackCreate">Test Yaratishga Qaytish</button>
+        <button type="button" class="btn" onclick="goToRegister()" data-i18n="btnBackRegister">Bosh Sahifa</button>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <p data-i18n="footer">© 2025 Test Ishla. Barcha huquqlar himoyalangan.</p>
   </footer>
@@ -161,9 +315,8 @@
 
   <script>
     // ==================== SUPABASE SOZLAMALARI ====================
-    // BU YERNI O'ZGARTIRING! O'zingizning Supabase ma'lumotlaringizni qo'ying
-    const SUPABASE_URL = 'https://xxxxxxxxxxxx.supabase.co';  // O'z project URL ingiz
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';  // O'z anon key ingiz
+    const SUPABASE_URL = 'https://fntndvrrovszjftgmjij.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZudG5kdnJyb3ZzempmdGdtamlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMjEwMjMsImV4cCI6MjA3NDg5NzAyM30.625HTl4HyPqLSpsvuTUPFhjHKNfUbIWx9NWpov8AyTA';
     
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -179,7 +332,16 @@
         loginSuccess:"Muvaffaqiyatli kirdingiz!",
         loginError:"Noto'g'ri ID raqam. Iltimos, tekshirib qaytadan urinib ko'ring.",
         emailExists:"Bu email allaqachon ro'yxatdan o'tgan",
-        missingFields:"Iltimos, barcha maydonlarni to'ldiring"
+        missingFields:"Iltimos, barcha maydonlarni to'ldiring",
+        createTestTitle:"Test Yaratish",
+        testListTitle:"Yaratilgan Testlar",
+        labelTestName:"Test Nomi",
+        labelTestDescription:"Test Tavsifi", 
+        btnAddQuestion:"+ Yangi Savol Qo'shish",
+        btnSaveTest:"Testni Saqlash",
+        btnShowTests:"Yaratilgan Testlar",
+        btnBackRegister:"Orqaga",
+        btnBackCreate:"Test Yaratishga Qaytish"
       },
       en:{
         menuCreate:"Create Test",menuWork:"Work Test",menuRegister:"Register",
@@ -191,7 +353,16 @@
         loginSuccess:"Login successful!",
         loginError:"Incorrect ID number. Please check and try again.",
         emailExists:"This email is already registered",
-        missingFields:"Please fill all fields"
+        missingFields:"Please fill all fields",
+        createTestTitle:"Create Test",
+        testListTitle:"Created Tests", 
+        labelTestName:"Test Name",
+        labelTestDescription:"Test Description",
+        btnAddQuestion:"+ Add New Question",
+        btnSaveTest:"Save Test",
+        btnShowTests:"Created Tests", 
+        btnBackRegister:"Back",
+        btnBackCreate:"Back to Test Creator"
       },
       ru:{
         menuCreate:"Создать тест",menuWork:"Пройти тест",menuRegister:"Регистрация",
@@ -203,7 +374,16 @@
         loginSuccess:"Вход выполнен успешно!",
         loginError:"Неверный ID номер. Пожалуйста, проверьте и попробуйте еще раз.",
         emailExists:"Этот email уже зарегистрирован",
-        missingFields:"Пожалуйста, заполните все поля"
+        missingFields:"Пожалуйста, заполните все поля",
+        createTestTitle:"Создать тест",
+        testListTitle:"Созданные тесты",
+        labelTestName:"Название теста", 
+        labelTestDescription:"Описание теста",
+        btnAddQuestion:"+ Добавить вопрос",
+        btnSaveTest:"Сохранить тест",
+        btnShowTests:"Созданные тесты",
+        btnBackRegister:"Назад",
+        btnBackCreate:"Назад к созданию теста"
       }
     };
 
@@ -246,7 +426,7 @@
           .eq('email', email)
           .single();
 
-        return !!data; // Agar data mavjud bo'lsa true, yo'q bo'lsa false
+        return !!data;
       } catch (error) {
         return false;
       }
@@ -262,24 +442,20 @@
       const email = document.getElementById('email').value.trim();
       const currentLang = localStorage.getItem('lang') || 'uz';
 
-      // Maydonlarni tekshirish
       if (!surname || !name || !email) {
         showMessage('regMessage', translations[currentLang].missingFields, 'error');
         return;
       }
 
       try {
-        // Email allaqachon mavjudligini tekshirish
         const emailExists = await checkEmailExists(email);
         if (emailExists) {
           showMessage('regMessage', translations[currentLang].emailExists, 'error');
           return;
         }
 
-        // Yangi ID yaratish
         const userId = generateID();
 
-        // Ma'lumotlarni Supabase'ga saqlash
         const { data, error } = await supabase
           .from('users')
           .insert([
@@ -297,14 +473,11 @@
           throw error;
         }
 
-        // Muvaffaqiyatli xabar
         const successMessage = translations[currentLang].regSuccess + userId;
         showMessage('regMessage', successMessage, 'success');
         
-        // Formani tozalash
         document.getElementById('regForm').reset();
 
-        // Foydalanuvchiga ID ni ko'rsatish
         alert(`Tabriklaymiz! Ro'yxatdan muvaffaqiyatli o'tdingiz.\nID raqamingiz: ${userId}\nBu ID ni saqlab qo'ying!`);
 
       } catch (error) {
@@ -327,7 +500,6 @@
       }
 
       try {
-        // ID ni tekshirish
         const { data, error } = await supabase
           .from('users')
           .select('*')
@@ -339,17 +511,12 @@
           return;
         }
 
-        // Muvaffaqiyatli kirish
         showMessage('loginMessage', translations[currentLang].loginSuccess, 'success');
         
-        // Foydalanuvchi ma'lumotlarini saqlash
         localStorage.setItem('currentUser', JSON.stringify(data));
         
-        // Kirish muvaffaqiyatli - keyingi sahifaga o'tish
         setTimeout(() => {
           alert(`Xush kelibsiz, ${data.surname} ${data.name}!\nSiz muvaffaqiyatli tizimga kirdingiz.`);
-          // Bu yerda foydalanuvchini boshqa sahifaga yo'naltirishingiz mumkin
-          // window.location.href = 'dashboard.html';
         }, 1000);
 
       } catch (error) {
@@ -358,7 +525,248 @@
       }
     });
 
+    // ==================== TEST YARATISH FUNKSIYALARI ====================
+
+    // Sahifalar orasida o'tish
+    function showTestCreator() {
+      document.getElementById('register').classList.add('hidden');
+      document.getElementById('create').classList.remove('hidden');
+      document.getElementById('testList').classList.add('hidden');
+    }
+
+    function showTestList() {
+      document.getElementById('register').classList.add('hidden');
+      document.getElementById('create').classList.add('hidden');
+      document.getElementById('testList').classList.remove('hidden');
+      loadTests();
+    }
+
+    function goToRegister() {
+      document.getElementById('register').classList.remove('hidden');
+      document.getElementById('create').classList.add('hidden');
+      document.getElementById('testList').classList.add('hidden');
+    }
+
+    function goToTestCreator() {
+      document.getElementById('register').classList.add('hidden');
+      document.getElementById('create').classList.remove('hidden');
+      document.getElementById('testList').classList.add('hidden');
+    }
+
+    // Yangi savol qo'shish
+    function addQuestion() {
+      const questionsContainer = document.getElementById('questionsContainer');
+      const questionIndex = questionsContainer.children.length;
+      
+      const questionHTML = `
+        <div class="question-block" id="question-${questionIndex}">
+          <h4>Savol ${questionIndex + 1}</h4>
+          <input type="text" class="question-text" placeholder="Savol matnini kiriting" required>
+          
+          <div class="options-container">
+            <div class="option-row">
+              <input type="radio" name="correct-${questionIndex}" value="0" required>
+              <input type="text" class="option-text" placeholder="Variant A" required>
+            </div>
+            <div class="option-row">
+              <input type="radio" name="correct-${questionIndex}" value="1">
+              <input type="text" class="option-text" placeholder="Variant B" required>
+            </div>
+            <div class="option-row">
+              <input type="radio" name="correct-${questionIndex}" value="2">
+              <input type="text" class="option-text" placeholder="Variant C">
+            </div>
+            <div class="option-row">
+              <input type="radio" name="correct-${questionIndex}" value="3">
+              <input type="text" class="option-text" placeholder="Variant D">
+            </div>
+          </div>
+          
+          <button type="button" class="remove-btn" onclick="removeQuestion(${questionIndex})">Savolni O'chirish</button>
+        </div>
+      `;
+      
+      questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
+    }
+
+    // Savolni o'chirish
+    function removeQuestion(index) {
+      const questionElement = document.getElementById(`question-${index}`);
+      if (questionElement) {
+        questionElement.remove();
+        const questions = document.querySelectorAll('.question-block');
+        questions.forEach((question, i) => {
+          question.id = `question-${i}`;
+          question.querySelector('h4').textContent = `Savol ${i + 1}`;
+        });
+      }
+    }
+
+    // Testni saqlash
+    document.getElementById('testForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        alert('Iltimos, avval tizimga kiring!');
+        return;
+      }
+
+      const testName = document.getElementById('testName').value.trim();
+      const testDescription = document.getElementById('testDescription').value.trim();
+      
+      if (!testName) {
+        showMessage('testMessage', 'Test nomini kiriting!', 'error');
+        return;
+      }
+
+      const questions = [];
+      const questionBlocks = document.querySelectorAll('.question-block');
+      
+      if (questionBlocks.length === 0) {
+        showMessage('testMessage', 'Kamida bitta savol qo\'shing!', 'error');
+        return;
+      }
+
+      try {
+        questionBlocks.forEach((block, index) => {
+          const questionText = block.querySelector('.question-text').value.trim();
+          const options = Array.from(block.querySelectorAll('.option-text'))
+            .map(input => input.value.trim())
+            .filter(text => text !== '');
+          
+          const correctAnswer = block.querySelector('input[type="radio"]:checked');
+          
+          if (!questionText || options.length < 2 || !correctAnswer) {
+            throw new Error(`Savol ${index + 1} to'liq to'ldirilmagan`);
+          }
+
+          questions.push({
+            question: questionText,
+            options: options,
+            correct_answer: parseInt(correctAnswer.value)
+          });
+        });
+
+        const { data, error } = await supabase
+          .from('tests')
+          .insert([
+            {
+              test_name: testName,
+              description: testDescription,
+              questions: questions,
+              created_by: currentUser.user_id,
+              created_by_name: `${currentUser.surname} ${currentUser.name}`,
+              created_at: new Date()
+            }
+          ])
+          .select();
+
+        if (error) throw error;
+
+        showMessage('testMessage', 'Test muvaffaqiyatli saqlandi!', 'success');
+        document.getElementById('testForm').reset();
+        document.getElementById('questionsContainer').innerHTML = '';
+        
+        addQuestion();
+
+      } catch (error) {
+        console.error('Test saqlash xatosi:', error);
+        showMessage('testMessage', 'Xatolik: ' + error.message, 'error');
+      }
+    });
+
+    // Testlarni yuklash
+    async function loadTests() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) return;
+
+      try {
+        const { data: tests, error } = await supabase
+          .from('tests')
+          .select('*')
+          .eq('created_by', currentUser.user_id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        const testsContainer = document.getElementById('testsContainer');
+        testsContainer.innerHTML = '';
+
+        if (!tests || tests.length === 0) {
+          testsContainer.innerHTML = '<p>Hali test yaratilmagan</p>';
+          return;
+        }
+
+        tests.forEach(test => {
+          const testHTML = `
+            <div class="test-item">
+              <h4>${test.test_name}</h4>
+              <p>${test.description || 'Tavsif yo\'q'}</p>
+              <p><strong>Savollar soni:</strong> ${test.questions.length}</p>
+              <p><strong>Yaratilgan sana:</strong> ${new Date(test.created_at).toLocaleDateString('uz-UZ')}</p>
+              <button class="add-btn" onclick="startTest('${test.id}')">Testni Boshlash</button>
+              <button class="remove-btn" onclick="deleteTest('${test.id}')">O'chirish</button>
+            </div>
+          `;
+          testsContainer.insertAdjacentHTML('beforeend', testHTML);
+        });
+
+      } catch (error) {
+        console.error('Testlarni yuklash xatosi:', error);
+      }
+    }
+
+    // Testni o'chirish
+    async function deleteTest(testId) {
+      if (!confirm('Bu testni o\'chirishni istaysizmi?')) return;
+
+      try {
+        const { error } = await supabase
+          .from('tests')
+          .delete()
+          .eq('id', testId);
+
+        if (error) throw error;
+
+        loadTests();
+        alert('Test muvaffaqiyatli o\'chirildi!');
+
+      } catch (error) {
+        console.error('Testni o\'chirish xatosi:', error);
+        alert('Xatolik: ' + error.message);
+      }
+    }
+
+    // Testni boshlash
+    function startTest(testId) {
+      alert('Test ishlash sahifasi tez orada qo\'shiladi!');
+    }
+
     // ==================== BOSHLANG'ICH SOZLAMALAR ====================
+
+    // Navigation linklarini yangilash
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelector('a[href="#create"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+          showTestCreator();
+        } else {
+          alert('Iltimos, avval tizimga kiring!');
+        }
+      });
+
+      document.querySelector('a[href="#work"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Test ishlash sahifasi tez orada qo\'shiladi!');
+      });
+
+      document.querySelector('a[href="#register"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        goToRegister();
+      });
+    });
 
     // Bosilganda tilni o'zgartirish
     document.querySelectorAll(".lang-btn").forEach(btn=>{
@@ -369,12 +777,31 @@
     document.addEventListener("DOMContentLoaded",()=>{
       const savedLang=localStorage.getItem("lang")||"uz";
       applyTranslations(savedLang);
+      addQuestion(); // Birinchi savolni qo'shish
     });
 
     // ID input ga faqat raqam kiritish
     document.getElementById('loginID').addEventListener('input', function(e) {
-      this.value = this.value.replace(/\D/g, ''); // Faqat raqamlar qoladi
+      this.value = this.value.replace(/\D/g, '');
     });
+
+    // Test: Supabase ga bog'langanini tekshirish
+    async function testConnection() {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('count')
+          .limit(1);
+        
+        if (error) throw error;
+        console.log('Supabase ga muvaffaqiyatli bog\'lanildi!');
+      } catch (error) {
+        console.error('Supabase ga bog\'lanishda xatolik:', error);
+      }
+    }
+
+    // Dastur yuklanganda test qilish
+    document.addEventListener("DOMContentLoaded", testConnection);
   </script>
 </body>
 </html>
