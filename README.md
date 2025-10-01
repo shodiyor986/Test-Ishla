@@ -202,6 +202,23 @@
     textarea {
       resize: vertical;
       min-height: 80px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .btn {
+      background: #4cd137;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #44bd32;
     }
   </style>
 </head>
@@ -417,21 +434,6 @@
       }, 5000);
     }
 
-    // Email tekshirish
-    async function checkEmailExists(email) {
-      try {
-        const { data, error } = await supabase
-          .from('users')
-          .select('email')
-          .eq('email', email)
-          .single();
-
-        return !!data;
-      } catch (error) {
-        return false;
-      }
-    }
-
     // ==================== RO'YXATDAN O'TISH ====================
 
     document.getElementById('regForm').addEventListener('submit', async function(e) {
@@ -448,14 +450,28 @@
       }
 
       try {
-        const emailExists = await checkEmailExists(email);
-        if (emailExists) {
+        console.log('🔵 Ro\'yxatdan o\'tish boshlandi...');
+
+        // Email allaqachon mavjudligini tekshirish
+        const { data: existingEmail, error: emailError } = await supabase
+          .from('users')
+          .select('email')
+          .eq('email', email);
+
+        if (emailError) {
+          console.error('Email tekshirish xatosi:', emailError);
+        }
+
+        if (existingEmail && existingEmail.length > 0) {
           showMessage('regMessage', translations[currentLang].emailExists, 'error');
           return;
         }
 
+        // Yangi ID yaratish
         const userId = generateID();
+        console.log('🆔 Yaratilgan ID:', userId);
 
+        // Ma'lumotlarni Supabase'ga saqlash
         const { data, error } = await supabase
           .from('users')
           .insert([
@@ -469,19 +485,45 @@
           .select();
 
         if (error) {
-          console.error('Supabase xatosi:', error);
-          throw error;
+          console.error('❌ Supabase INSERT xatosi:', error);
+          showMessage('regMessage', 'Server xatosi: ' + error.message, 'error');
+          return;
         }
 
+        console.log('✅ Muvaffaqiyatli saqlandi:', data);
+
+        // Muvaffaqiyatli xabar
         const successMessage = translations[currentLang].regSuccess + userId;
         showMessage('regMessage', successMessage, 'success');
         
+        // Formani tozalash
         document.getElementById('regForm').reset();
 
-        alert(`Tabriklaymiz! Ro'yxatdan muvaffaqiyatli o'tdingiz.\nID raqamingiz: ${userId}\nBu ID ni saqlab qo'ying!`);
+        // Foydalanuvchiga ID ni ko'rsatish
+        alert(`Tabriklaymiz! Ro'yxatdan muvaffaqiyatli o'tdingiz.\n\nID raqamingiz: ${userId}\n\nBu ID ni saqlab qo'ying!`);
+
+        // 5 soniyadan keyin ma'lumotlarni tekshirish
+        setTimeout(async () => {
+          console.log('🔍 Ma\'lumotlarni tekshirish...');
+          const { data: checkData, error: checkError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('user_id', userId);
+          
+          if (checkError) {
+            console.error('❌ Tekshirish xatosi:', checkError);
+          } else {
+            console.log('✅ Tekshirish natijasi:', checkData);
+            if (checkData.length > 0) {
+              console.log('🎉 Ma\'lumotlar Supabase da mavjud!');
+            } else {
+              console.log('⚠️ Ma\'lumotlar Supabase da ko\'rinmayapti');
+            }
+          }
+        }, 3000);
 
       } catch (error) {
-        console.error('Xatolik:', error);
+        console.error('❌ Umumiy xatolik:', error);
         showMessage('regMessage', translations[currentLang].regError, 'error');
       }
     });
@@ -500,6 +542,9 @@
       }
 
       try {
+        console.log('🔵 Kirish urinilyapti, ID:', loginID);
+
+        // ID ni tekshirish
         const { data, error } = await supabase
           .from('users')
           .select('*')
@@ -507,20 +552,24 @@
           .single();
 
         if (error || !data) {
+          console.error('❌ Kirish xatosi:', error);
           showMessage('loginMessage', translations[currentLang].loginError, 'error');
           return;
         }
 
+        console.log('✅ Kirish muvaffaqiyatli:', data);
         showMessage('loginMessage', translations[currentLang].loginSuccess, 'success');
         
+        // Foydalanuvchi ma'lumotlarini saqlash
         localStorage.setItem('currentUser', JSON.stringify(data));
         
+        // Kirish muvaffaqiyatli - keyingi sahifaga o'tish
         setTimeout(() => {
-          alert(`Xush kelibsiz, ${data.surname} ${data.name}!\nSiz muvaffaqiyatli tizimga kirdingiz.`);
+          alert(`Xush kelibsiz, ${data.surname} ${data.name}!\n\nSiz muvaffaqiyatli tizimga kirdingiz.`);
         }, 1000);
 
       } catch (error) {
-        console.error('Xatolik:', error);
+        console.error('❌ Kirish xatosi:', error);
         showMessage('loginMessage', translations[currentLang].loginError, 'error');
       }
     });
@@ -785,23 +834,37 @@
       this.value = this.value.replace(/\D/g, '');
     });
 
-    // Test: Supabase ga bog'langanini tekshirish
-    async function testConnection() {
+    // Supabase bog'lanishini test qilish
+    async function testSupabaseConnection() {
       try {
+        console.log('🔄 Supabase bog\'lanish testi...');
+        
         const { data, error } = await supabase
           .from('users')
           .select('count')
           .limit(1);
         
-        if (error) throw error;
-        console.log('Supabase ga muvaffaqiyatli bog\'lanildi!');
+        if (error) {
+          console.error('❌ Bog\'lanish xatosi:', error);
+          return false;
+        }
+        
+        console.log('✅ Supabase ga muvaffaqiyatli bog\'lanildi!');
+        return true;
+        
       } catch (error) {
-        console.error('Supabase ga bog\'lanishda xatolik:', error);
+        console.error('❌ Test xatosi:', error);
+        return false;
       }
     }
 
     // Dastur yuklanganda test qilish
-    document.addEventListener("DOMContentLoaded", testConnection);
+    document.addEventListener("DOMContentLoaded", async function() {
+      console.log('🚀 Dastur yuklandi, tekshirishlar boshlandi...');
+      
+      await testSupabaseConnection();
+      console.log('🎯 Barcha tekshirishlar tugadi');
+    });
   </script>
 </body>
 </html>
