@@ -1,404 +1,380 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            min-height: 60px;
-        }
-        
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #4cd137;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .lang-switcher {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .lang-switcher select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            outline: none;
-            cursor: pointer;
-        }
-        
-        .lang-switcher select option {
-            background: #2a5298;
-            color: white;
-        }
-        
-        .clock {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        nav {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin: 0 15px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            display: block;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #4cd137;
-        }
-        
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: #4cd137;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-            line-height: 1.8;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-        
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            color: #4cd137;
-            font-size: 1.5rem;
-        }
-        
-        .feature-card p {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-        
-        footer {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        footer p {
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .logo {
-                position: static;
-                transform: none;
-                order: 1;
-            }
-            
-            .lang-switcher {
-                position: static;
-                transform: none;
-                order: 2;
-            }
-            
-            .clock {
-                position: static;
-                transform: none;
-                order: 3;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-                padding: 0 15px;
-            }
-            
-            .nav-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .nav-links li {
-                margin: 0;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-                padding: 0 15px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Ishla Platformasi</title>
+  <style>
+    /* Sizning mavjud CSS stylinglaringiz */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(-45deg,#1e3c72,#2a5298,#0f2027,#203a43,#2c5364);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      margin: 0; padding: 0;
+    }
+    @keyframes gradientBG {
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    header, nav, footer {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      text-align: center;
+    }
+    nav ul {list-style:none;display:flex;justify-content:center;gap:20px;padding:0;}
+    nav a {color:white;text-decoration:none;padding:8px 16px;border-radius:6px;}
+    nav a:hover {background: rgba(255,255,255,0.2);}
+    section {min-height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;padding:2rem;}
+    .form-box {
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      border-radius:15px;
+      padding:2rem;
+      max-width:400px;
+      width:100%;
+      margin:1rem;
+    }
+    .form-box h2 {color:#4cd137;text-align:center;margin-bottom:1rem;}
+    .form-box input, .form-box button {
+      width:100%;padding:10px;margin-bottom:1rem;border-radius:8px;border:none;outline:none;
+    }
+    .form-box button {
+      background:#4cd137;color:white;font-weight:bold;cursor:pointer;
+    }
+    .form-box button:hover {background:#44bd32;}
+    .forms {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
+
+    /* Til switcher paneli */
+    .lang-panel {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255,255,255,0.1);
+      padding: 12px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      z-index: 2000;
+    }
+    .lang-btn {
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 50%;
+      padding: 5px;
+    }
+    .lang-btn:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    }
+    .lang-btn.active {
+      background: rgba(76,209,55,0.2);
+      box-shadow: 0 0 10px #4cd137;
+    }
+
+    /* Xabarlar uchun */
+    .message {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .success {
+      background: rgba(76, 209, 55, 0.3);
+      border: 1px solid #4cd137;
+    }
+    .error {
+      background: rgba(231, 76, 60, 0.3);
+      border: 1px solid #e74c3c;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="lang-switcher">
-                    <select id="lang">
-                        <option value="uz">O'zbek</option>
-                        <option value="en">English</option>
-                        <option value="ru">Русский</option>
-                    </select>
-                </div>
-                <div class="clock" id="clock">Yuklanmoqda...</div>
-            </div>
-        </div>
-    </header>
+  <header>
+    <h1>Test Ishla Platformasi</h1>
+  </header>
+
+  <!-- Til paneli (bayroqlar) -->
+  <div class="lang-panel">
+    <div class="lang-btn" data-lang="uz">🇺🇿</div>
+    <div class="lang-btn" data-lang="en">🇺🇸</div>
+    <div class="lang-btn" data-lang="ru">🇷🇺</div>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="#create" data-i18n="menuCreate">Test Yaratish</a></li>
+      <li><a href="#work" data-i18n="menuWork">Test ishlash</a></li>
+      <li><a href="#register" data-i18n="menuRegister">Ro'yxatdan o'tish</a></li>
+    </ul>
+  </nav>
+
+  <!-- Ro'yxatdan o'tish va Kirish -->
+  <section id="register">
+    <div class="forms">
+      <!-- Ro'yxatdan o'tish -->
+      <div class="form-box">
+        <h2 data-i18n="registerTitle">Ro'yxatdan o'tish</h2>
+        <div id="regMessage"></div>
+        <form id="regForm">
+          <label data-i18n="labelSurname">Familiya</label>
+          <input type="text" id="surname" required placeholder="Familiyangiz">
+
+          <label data-i18n="labelName">Ism</label>
+          <input type="text" id="name" required placeholder="Ismingiz">
+
+          <label data-i18n="labelEmail">Gmail</label>
+          <input type="email" id="email" required placeholder="example@gmail.com">
+
+          <button type="submit" data-i18n="btnRegister">Ro'yxatdan o'tish</button>
+        </form>
+      </div>
+
+      <!-- Kirish -->
+      <div class="form-box">
+        <h2 data-i18n="loginTitle">Kirish</h2>
+        <div id="loginMessage"></div>
+        <form id="loginForm">
+          <label data-i18n="labelID">ID raqam</label>
+          <input type="text" id="loginID" required placeholder="14 xonali ID raqamingiz" maxlength="14">
+
+          <button type="submit" data-i18n="btnLogin">Kirish</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p data-i18n="footer">© 2025 Test Ishla. Barcha huquqlar himoyalangan.</p>
+  </footer>
+
+  <!-- Supabase kutubxonasi -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ==================== SUPABASE SOZLAMALARI ====================
+    // BU YERNI O'ZGARTIRING! O'zingizning Supabase ma'lumotlaringizni qo'ying
+    const SUPABASE_URL = 'https://xxxxxxxxxxxx.supabase.co';  // O'z project URL ingiz
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';  // O'z anon key ingiz
     
-    <nav>
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="#" data-i18n="menuPage2">Test Yaratish</a></li>
-                <li><a href="#" data-i18n="menuPage3">Natijalar</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <main class="container">
-        <section class="hero">
-            <h1 data-i18n="homeTitle">Test Ishla Platformasi</h1>
-            <p data-i18n="homeText">
-                Ushbu platforma orqali siz turli testlarni yaratishingiz, ularni boshqalar bilan ulashingiz va natijalarni kuzatishingiz mumkin. 
-                O'quv jarayonini qiziqarli va samarali qilish uchun mo'ljallangan.
-            </p>
-        </section>
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ==================== TIL TARJIMALARI ====================
+    const translations = {
+      uz:{
+        menuCreate:"Test Yaratish",menuWork:"Test ishlash",menuRegister:"Ro'yxatdan o'tish",
+        registerTitle:"Ro'yxatdan o'tish",labelSurname:"Familiya",labelName:"Ism",labelEmail:"Gmail",
+        btnRegister:"Ro'yxatdan o'tish",loginTitle:"Kirish",labelID:"ID raqam",btnLogin:"Kirish",
+        footer:"© 2025 Test Ishla. Barcha huquqlar himoyalangan.",
+        regSuccess:"Ro'yxatdan muvaffaqiyatli o'tdingiz! ID raqamingiz: ",
+        regError:"Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.",
+        loginSuccess:"Muvaffaqiyatli kirdingiz!",
+        loginError:"Noto'g'ri ID raqam. Iltimos, tekshirib qaytadan urinib ko'ring.",
+        emailExists:"Bu email allaqachon ro'yxatdan o'tgan",
+        missingFields:"Iltimos, barcha maydonlarni to'ldiring"
+      },
+      en:{
+        menuCreate:"Create Test",menuWork:"Work Test",menuRegister:"Register",
+        registerTitle:"Register",labelSurname:"Surname",labelName:"Name",labelEmail:"Email",
+        btnRegister:"Register",loginTitle:"Login",labelID:"ID Number",btnLogin:"Login",
+        footer:"© 2025 Test Ishla. All rights reserved.",
+        regSuccess:"Registration successful! Your ID: ",
+        regError:"An error occurred. Please try again.",
+        loginSuccess:"Login successful!",
+        loginError:"Incorrect ID number. Please check and try again.",
+        emailExists:"This email is already registered",
+        missingFields:"Please fill all fields"
+      },
+      ru:{
+        menuCreate:"Создать тест",menuWork:"Пройти тест",menuRegister:"Регистрация",
+        registerTitle:"Регистрация",labelSurname:"Фамилия",labelName:"Имя",labelEmail:"Почта",
+        btnRegister:"Зарегистрироваться",loginTitle:"Вход",labelID:"ID номер",btnLogin:"Войти",
+        footer:"© 2025 Test Ishla. Все права защищены.",
+        regSuccess:"Регистрация прошла успешно! Ваш ID: ",
+        regError:"Произошла ошибка. Пожалуйста, попробуйте еще раз.",
+        loginSuccess:"Вход выполнен успешно!",
+        loginError:"Неверный ID номер. Пожалуйста, проверьте и попробуйте еще раз.",
+        emailExists:"Этот email уже зарегистрирован",
+        missingFields:"Пожалуйста, заполните все поля"
+      }
+    };
+
+    // ==================== FUNKSIYALAR ====================
+
+    // Tarjima qo'llash
+    function applyTranslations(lang){
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const key=el.getAttribute("data-i18n");
+        if(translations[lang][key]) el.textContent=translations[lang][key];
+      });
+      localStorage.setItem("lang",lang);
+
+      document.querySelectorAll(".lang-btn").forEach(btn=>{
+        btn.classList.remove("active");
+        if(btn.dataset.lang===lang) btn.classList.add("active");
+      });
+    }
+
+    // 14 xonali ID yaratish
+    function generateID() {
+      return Math.random().toString().substring(2, 16);
+    }
+
+    // Xabar ko'rsatish
+    function showMessage(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.innerHTML = `<div class="message ${type}">${message}</div>`;
+      setTimeout(() => {
+        element.innerHTML = '';
+      }, 5000);
+    }
+
+    // Email tekshirish
+    async function checkEmailExists(email) {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('email')
+          .eq('email', email)
+          .single();
+
+        return !!data; // Agar data mavjud bo'lsa true, yo'q bo'lsa false
+      } catch (error) {
+        return false;
+      }
+    }
+
+    // ==================== RO'YXATDAN O'TISH ====================
+
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const surname = document.getElementById('surname').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const currentLang = localStorage.getItem('lang') || 'uz';
+
+      // Maydonlarni tekshirish
+      if (!surname || !name || !email) {
+        showMessage('regMessage', translations[currentLang].missingFields, 'error');
+        return;
+      }
+
+      try {
+        // Email allaqachon mavjudligini tekshirish
+        const emailExists = await checkEmailExists(email);
+        if (emailExists) {
+          showMessage('regMessage', translations[currentLang].emailExists, 'error');
+          return;
+        }
+
+        // Yangi ID yaratish
+        const userId = generateID();
+
+        // Ma'lumotlarni Supabase'ga saqlash
+        const { data, error } = await supabase
+          .from('users')
+          .insert([
+            { 
+              surname: surname,
+              name: name, 
+              email: email,
+              user_id: userId
+            }
+          ])
+          .select();
+
+        if (error) {
+          console.error('Supabase xatosi:', error);
+          throw error;
+        }
+
+        // Muvaffaqiyatli xabar
+        const successMessage = translations[currentLang].regSuccess + userId;
+        showMessage('regMessage', successMessage, 'success');
         
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">📝</div>
-                <h3>Test Yaratish</h3>
-                <p>Oson va tez testlar yarating. Turli savol turlaridan foydalaning. Har qanday mavzuda test tuzing.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🔗</div>
-                <h3>Ulashish</h3>
-                <p>Yaratgan testingizni boshqalar bilan ulashing va natijalarni kuzating. O'quvchilar bilan baham ko'ring.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Natijalar Tahlili</h3>
-                <p>Batafsil natijalar tahlili va statistik ma'lumotlar oling. O'quvchilarning rivojlanishini kuzating.</p>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <p data-i18n="footer">© 2025 Test Ishla. Barcha huquqlar himoyalangan.</p>
-        </div>
-    </footer>
-    
-    <script>
-        // Tillar matnlari
-        const translations = {
-            uz: {
-                menuPage2: "Test Yaratish",
-                menuPage3: "Natijalar",
-                homeTitle: "Test Ishla Platformasi",
-                homeText: "Ushbu platforma orqali siz turli testlarni yaratishingiz, ularni boshqalar bilan ulashingiz va natijalarni kuzatishingiz mumkin. O'quv jarayonini qiziqarli va samarali qilish uchun mo'ljallangan.",
-                footer: "© 2025 Test Ishla. Barcha huquqlar himoyalangan."
-            },
-            en: {
-                menuPage2: "Create Test",
-                menuPage3: "Results",
-                homeTitle: "Test Ishla Platform",
-                homeText: "With this platform, you can create various tests, share them with others, and monitor results. Designed to make the learning process interesting and effective.",
-                footer: "© 2025 Test Ishla. All rights reserved."
-            },
-            ru: {
-                menuPage2: "Создать Тест",
-                menuPage3: "Результаты",
-                homeTitle: "Платформа Test Ishla",
-                homeText: "С этой платформой вы можете создавать различные тесты, делиться ими с другими и отслеживать результаты. Разработано, чтобы сделать процесс обучения интересным и эффективным.",
-                footer: "© 2025 Test Ishla. Все права защищены."
-            }
-        };
+        // Formani tozalash
+        document.getElementById('regForm').reset();
 
-        // Tarjima funksiyasi
-        function applyTranslations(lang) {
-            document.querySelectorAll("[data-i18n]").forEach(el => {
-                const key = el.getAttribute("data-i18n");
-                if (translations[lang] && translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
-            document.title = translations[lang].homeTitle + " - Test Ishla";
-            localStorage.setItem("lang", lang);
+        // Foydalanuvchiga ID ni ko'rsatish
+        alert(`Tabriklaymiz! Ro'yxatdan muvaffaqiyatli o'tdingiz.\nID raqamingiz: ${userId}\nBu ID ni saqlab qo'ying!`);
+
+      } catch (error) {
+        console.error('Xatolik:', error);
+        showMessage('regMessage', translations[currentLang].regError, 'error');
+      }
+    });
+
+    // ==================== KIRISH ====================
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const loginID = document.getElementById('loginID').value.trim();
+      const currentLang = localStorage.getItem('lang') || 'uz';
+
+      if (!loginID) {
+        showMessage('loginMessage', translations[currentLang].missingFields, 'error');
+        return;
+      }
+
+      try {
+        // ID ni tekshirish
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('user_id', loginID)
+          .single();
+
+        if (error || !data) {
+          showMessage('loginMessage', translations[currentLang].loginError, 'error');
+          return;
         }
 
-        // Tilni tanlash
-        document.getElementById("lang").addEventListener("change", (e) => {
-            applyTranslations(e.target.value);
-        });
+        // Muvaffaqiyatli kirish
+        showMessage('loginMessage', translations[currentLang].loginSuccess, 'success');
+        
+        // Foydalanuvchi ma'lumotlarini saqlash
+        localStorage.setItem('currentUser', JSON.stringify(data));
+        
+        // Kirish muvaffaqiyatli - keyingi sahifaga o'tish
+        setTimeout(() => {
+          alert(`Xush kelibsiz, ${data.surname} ${data.name}!\nSiz muvaffaqiyatli tizimga kirdingiz.`);
+          // Bu yerda foydalanuvchini boshqa sahifaga yo'naltirishingiz mumkin
+          // window.location.href = 'dashboard.html';
+        }, 1000);
 
-        // Dastlabki tilni yuklash
-        function initializeLanguage() {
-            const savedLang = localStorage.getItem("lang") || "uz";
-            const langSelect = document.getElementById("lang");
-            
-            if (langSelect) {
-                langSelect.value = savedLang;
-                applyTranslations(savedLang);
-            }
-        }
+      } catch (error) {
+        console.error('Xatolik:', error);
+        showMessage('loginMessage', translations[currentLang].loginError, 'error');
+      }
+    });
 
-        // Soat va sana
-        function updateClock() {
-            const now = new Date();
-            const lang = localStorage.getItem("lang") || "uz";
-            
-            // Soat va sana formatlari
-            const timeOptions = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            
-            const dateOptions = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            
-            let timeString, dateString;
-            
-            try {
-                // Soatni formatlash
-                timeString = now.toLocaleTimeString(lang === 'uz' ? 'uz-UZ' : lang, timeOptions);
-                
-                // Sanani formatlash
-                dateString = now.toLocaleDateString(lang === 'uz' ? 'uz-UZ' : lang, dateOptions);
-                
-                document.getElementById('clock').textContent = `${timeString} | ${dateString}`;
-            } catch (error) {
-                // Agar lokal muammo bo'lsa, oddiy formatda ko'rsatamiz
-                document.getElementById('clock').textContent = now.toLocaleString();
-            }
-        }
+    // ==================== BOSHLANG'ICH SOZLAMALAR ====================
 
-        // DOM yuklanganida ishga tushirish
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeLanguage();
-            updateClock();
-            setInterval(updateClock, 1000);
-        });
+    // Bosilganda tilni o'zgartirish
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      btn.addEventListener("click",()=>applyTranslations(btn.dataset.lang));
+    });
 
-        // Agar DOM allaqachon yuklangan bo'lsa
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeLanguage);
-        } else {
-            initializeLanguage();
-        }
-    </script>
+    // Boshlang'ich til
+    document.addEventListener("DOMContentLoaded",()=>{
+      const savedLang=localStorage.getItem("lang")||"uz";
+      applyTranslations(savedLang);
+    });
+
+    // ID input ga faqat raqam kiritish
+    document.getElementById('loginID').addEventListener('input', function(e) {
+      this.value = this.value.replace(/\D/g, ''); // Faqat raqamlar qoladi
+    });
+  </script>
 </body>
 </html>
